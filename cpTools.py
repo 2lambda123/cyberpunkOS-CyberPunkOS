@@ -4,6 +4,7 @@ import subprocess
 import webbrowser
 import os
 import time
+from security import safe_command
 
 # Constantes para las rutas de las aplicaciones
 TOR_BROWSER_PATH = "/usr/bin/torbrowser-launcher"
@@ -39,14 +40,14 @@ def recopilacion_y_verificacion():
             ejecutar_exiftool()  # Llama a la función que ejecuta ExifTool
         elif opcion == '3':
             # Ejecutar SpiderFoot en segundo plano
-            subprocess.Popen(["spiderfoot", "-l", "127.0.0.1:8989"])
+            safe_command.run(subprocess.Popen, ["spiderfoot", "-l", "127.0.0.1:8989"])
             print("En un momento se abrirá la interfaz web...")
             time.sleep(5)  # Espera 5 segundos
             # Abrir la URL en el navegador
             webbrowser.open("http://127.0.0.1:8989")
         elif opcion == '4':
             # Ejecutar webhttrack
-            subprocess.Popen(["/usr/bin/webhttrack"])
+            safe_command.run(subprocess.Popen, ["/usr/bin/webhttrack"])
         elif opcion == '5':
             print("Abriendo IntelTechniques Toolkit...")
             webbrowser.open("https://inteltechniques.com/tools/")
@@ -63,7 +64,7 @@ def ejecutar_goris():
     url = input("Ingrese la URL de la imagen: ")
     # Ejecutar el comando "goris s -u" con la URL proporcionada
     try:
-        subprocess.run(["goris", "s", "-u", url], check=True)
+        safe_command.run(subprocess.run, ["goris", "s", "-u", url], check=True)
     except subprocess.CalledProcessError:
         print("Error al ejecutar el comando. Asegúrese de que 'goris' esté instalado y sea ejecutable.")
     
@@ -83,7 +84,7 @@ def ejecutar_exiftool():
         if opcion == '1':
             archivo = input("Ingrese la ruta y el nombre del archivo para analizar: ")
             try:
-                subprocess.run(["exiftool", archivo])
+                safe_command.run(subprocess.run, ["exiftool", archivo])
             except subprocess.CalledProcessError:
                 print("Error al ejecutar el comando 'exiftool'. Asegúrese de que 'exiftool' esté instalado y sea ejecutable.")
         elif opcion == '2':
@@ -97,7 +98,7 @@ def ejecutar_exiftool():
             resultado = f"/home/cyberpunk/CyberpunkTools_resultados/metadatos.{formato}"
             
             try:
-                subprocess.run(["exiftool", f"-{formato}", archivo], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                safe_command.run(subprocess.run, ["exiftool", f"-{formato}", archivo], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
                 output = subprocess.check_output(["exiftool", f"-{formato}", archivo], stderr=subprocess.STDOUT, text=True)
                 
                 # Guardar el resultado en el archivo
@@ -132,7 +133,7 @@ def analisis_y_visualizacion():
 
 def ejecutar_maltego():
     try:
-        subprocess.run(["maltego"], check=True)
+        safe_command.run(subprocess.run, ["maltego"], check=True)
     except subprocess.CalledProcessError:
         print("Error al ejecutar el comando 'maltego'. Asegúrese de que 'maltego' esté instalado y sea ejecutable.")
     
@@ -161,7 +162,7 @@ def ejecutar_photon():
 
     try:
         # Abre una nueva terminal y ejecuta el script
-        subprocess.run(["mate-terminal", "--command", f"bash -c '{ruta_script} ; bash'"], check=True)
+        safe_command.run(subprocess.run, ["mate-terminal", "--command", f"bash -c '{ruta_script} ; bash'"], check=True)
     except subprocess.CalledProcessError:
         print("Error al ejecutar el script. Asegúrate de que la ruta sea correcta y el archivo tenga permisos de ejecución.")
 
@@ -189,14 +190,14 @@ def ejecutar_sherlock():
 
     try:
         # Abre una nueva terminal y ejecuta el script
-        subprocess.run(["mate-terminal", "--command", f"bash -c '{ruta_script} ; bash'"], check=True)
+        safe_command.run(subprocess.run, ["mate-terminal", "--command", f"bash -c '{ruta_script} ; bash'"], check=True)
     except subprocess.CalledProcessError:
         print("Error al ejecutar el script. Asegúrate de que la ruta sea correcta y el archivo tenga permisos de ejecución.")
 
 def ejecutar_cpNews(palabra_clave):
     print(f"Ejecutando el programa cpNews.py con la palabra clave: {palabra_clave}")
     try:
-        subprocess.run(["python3", "cpNews.py", palabra_clave], check=True)
+        safe_command.run(subprocess.run, ["python3", "cpNews.py", palabra_clave], check=True)
     except subprocess.CalledProcessError:
         print("Error al ejecutar cpNews.py. Asegúrate de que el archivo existe y es ejecutable.")
     input("Presiona Enter para volver al menú principal.")
@@ -262,7 +263,7 @@ def anonimato_y_privacidad():
 def ejecutar_aplicacion(aplicacion_path, nombre_aplicacion):
     print(f"Ejecutando {nombre_aplicacion}...")
     try:
-        subprocess.run([aplicacion_path], check=True)
+        safe_command.run(subprocess.run, [aplicacion_path], check=True)
         print(f"{nombre_aplicacion} se ha ejecutado con éxito.")
     except subprocess.CalledProcessError:
         print(f"Error al ejecutar {nombre_aplicacion}. Asegúrate de que esté instalado y configurado correctamente.")
