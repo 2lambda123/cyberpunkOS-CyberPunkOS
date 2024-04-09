@@ -106,7 +106,7 @@ def ejecutar_exiftool():
                 
                 print(f"Metadatos exportados en: {resultado}")
             except subprocess.CalledProcessError as e:
-                print(f"Error al exportar los metadatos. Asegúrese de que 'exiftool' esté instalado y sea ejecutable.")
+                print("Error al exportar los metadatos. Asegúrese de que 'exiftool' esté instalado y sea ejecutable.")
                 print(e.output)
         elif opcion == '3':
             break
