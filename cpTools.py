@@ -4,6 +4,7 @@ import subprocess
 import webbrowser
 import os
 import time
+from security import safe_command
 
 # Constantes para las rutas de las aplicaciones
 TOR_BROWSER_PATH = "/usr/bin/torbrowser-launcher"
@@ -262,7 +263,7 @@ def anonimato_y_privacidad():
 def ejecutar_aplicacion(aplicacion_path, nombre_aplicacion):
     print(f"Ejecutando {nombre_aplicacion}...")
     try:
-        subprocess.run([aplicacion_path], check=True)
+        safe_command.run(subprocess.run, [aplicacion_path], check=True)
         print(f"{nombre_aplicacion} se ha ejecutado con éxito.")
     except subprocess.CalledProcessError:
         print(f"Error al ejecutar {nombre_aplicacion}. Asegúrate de que esté instalado y configurado correctamente.")
